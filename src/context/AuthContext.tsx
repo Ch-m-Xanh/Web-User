@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { fetchCurrentUser } from '../api/auth';
 import { TOKEN_STORAGE_KEY } from '../api/client';
+import { reconnectSocket } from '../services/socket';
 import type { AuthResponse, User } from '../types';
 
 interface AuthContextValue {
@@ -42,11 +43,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginWithResponse = useCallback((response: AuthResponse) => {
     localStorage.setItem(TOKEN_STORAGE_KEY, response.token);
     setUser(response.user);
+    reconnectSocket();
   }, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem(TOKEN_STORAGE_KEY);
     setUser(null);
+    reconnectSocket();
   }, []);
 
   const value = useMemo(

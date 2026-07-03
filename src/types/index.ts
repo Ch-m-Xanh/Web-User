@@ -46,6 +46,35 @@ export interface Article {
   createdAt: string;
 }
 
+export interface UserPlantReminder {
+  enabled: boolean;
+  wateringIntervalDays: number;
+  fertilizingIntervalDays: number;
+  notifyTime: string;
+}
+
+export interface UserPlant {
+  _id: string;
+  userId: string;
+  plantId: string | null;
+  customName: string;
+  photoUrl?: string;
+  reminder: UserPlantReminder;
+  addedAt: string;
+}
+
+export interface CreateUserPlantPayload {
+  plantId?: string | null;
+  customName: string;
+  photoUrl?: string;
+  reminder?: Partial<UserPlantReminder>;
+}
+
+export interface UpdateUserPlantPayload {
+  customName?: string;
+  photoUrl?: string;
+}
+
 export interface ApiError {
   error: {
     message: string;

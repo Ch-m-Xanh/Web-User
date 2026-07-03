@@ -12,11 +12,17 @@ function formatDate(dateString: string): string {
   }
 }
 
+function excerpt(content: string, maxLength = 120): string {
+  const plain = content.replace(/\s+/g, ' ').trim();
+  if (plain.length <= maxLength) return plain;
+  return `${plain.slice(0, maxLength).trimEnd()}…`;
+}
+
 export default function ArticleCard({ article }: { article: Article }) {
   return (
     <Link
       to={`/articles/${article._id}`}
-      className="group block rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
+      className="group flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
     >
       <div className="aspect-[16/9] w-full overflow-hidden bg-gray-100">
         <img
@@ -28,9 +34,13 @@ export default function ArticleCard({ article }: { article: Article }) {
           }}
         />
       </div>
-      <div className="p-4 flex flex-col gap-2">
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <span className="text-xs font-medium text-gray-400">
+          {formatDate(article.createdAt)}
+        </span>
         <h3 className="font-semibold text-gray-900 line-clamp-2">{article.title}</h3>
-        <div className="flex flex-wrap gap-1">
+        <p className="text-sm text-gray-500 line-clamp-2">{excerpt(article.content)}</p>
+        <div className="mt-auto flex flex-wrap gap-1 pt-1">
           {article.tags?.map((tag) => (
             <span
               key={tag}
@@ -40,7 +50,6 @@ export default function ArticleCard({ article }: { article: Article }) {
             </span>
           ))}
         </div>
-        <span className="text-xs text-gray-400">{formatDate(article.createdAt)}</span>
       </div>
     </Link>
   );

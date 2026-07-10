@@ -33,6 +33,7 @@ export interface User {
   avatarUrl?: string;
   role: UserRole;
   gardenName?: string;
+  gardenDescription?: string;
   isLocked: boolean;
   createdAt: string;
 }
@@ -59,6 +60,7 @@ export interface UserPlant {
   plantId: string | null;
   customName: string;
   photoUrl?: string;
+  space?: string;
   reminder: UserPlantReminder;
   addedAt: string;
 }
@@ -67,12 +69,14 @@ export interface CreateUserPlantPayload {
   plantId?: string | null;
   customName: string;
   photoUrl?: string;
+  space?: string;
   reminder?: Partial<UserPlantReminder>;
 }
 
 export interface UpdateUserPlantPayload {
   customName?: string;
   photoUrl?: string;
+  space?: string;
 }
 
 export interface ApiError {

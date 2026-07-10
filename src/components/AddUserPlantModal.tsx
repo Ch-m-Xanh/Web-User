@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { fetchPlants } from '../api/plants';
+import { SPACE_OPTIONS } from '../constants/spaces';
 import type { CreateUserPlantPayload, Plant } from '../types';
 
 interface AddUserPlantModalProps {
@@ -21,6 +22,7 @@ export default function AddUserPlantModal({
   const [selectedPlantId, setSelectedPlantId] = useState('');
   const [customName, setCustomName] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
+  const [space, setSpace] = useState(SPACE_OPTIONS[0].value);
 
   useEffect(() => {
     fetchPlants()
@@ -42,6 +44,7 @@ export default function AddUserPlantModal({
         plantId: plant._id,
         customName: plant.name,
         photoUrl: photoUrl || plant.images?.[0] || undefined,
+        space,
       });
     } else {
       if (!customName.trim()) return;
@@ -49,6 +52,7 @@ export default function AddUserPlantModal({
         plantId: null,
         customName: customName.trim(),
         photoUrl: photoUrl || undefined,
+        space,
       });
     }
   };
@@ -118,6 +122,21 @@ export default function AddUserPlantModal({
             />
           </label>
         )}
+
+        <label className="flex flex-col gap-1 text-sm">
+          <span className="font-medium text-gray-700">Vị trí đặt cây</span>
+          <select
+            value={space}
+            onChange={(e) => setSpace(e.target.value)}
+            className="rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+          >
+            {SPACE_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </label>
 
         <label className="flex flex-col gap-1 text-sm">
           <span className="font-medium text-gray-700">

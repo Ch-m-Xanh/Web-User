@@ -1,3 +1,4 @@
+import { getSpaceLabel } from '../constants/spaces';
 import type { UserPlant } from '../types';
 
 const FALLBACK_IMAGE =
@@ -43,7 +44,7 @@ export default function UserPlantCard({
             {userPlant.customName}
           </h3>
           <span className="text-xs text-gray-400">
-            Thêm ngày {formatDate(userPlant.addedAt)}
+            Thêm ngày {formatDate(userPlant.addedAt)} · {getSpaceLabel(userPlant.space)}
           </span>
         </div>
 
